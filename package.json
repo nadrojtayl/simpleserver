@@ -1,0 +1,25 @@
+{
+  "name": "spectraprocess",
+  "version": "1.0.0",
+  "description": "",
+  "main": "pivot copy.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://nadrojtayl@bitbucket.org/nadrojtayl/spectra.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://bitbucket.org/nadrojtayl/spectra#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "http": "0.0.0",
+    "massive": "^6.2.0",
+    "socket.io": "^2.3.0"
+  }
+}
