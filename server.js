@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 var massive = require('massive');
-var http = require('http');
+var http = require('http').createServer(app);
 const bodyParser = require("body-parser");
 var cors = require('cors')
 
