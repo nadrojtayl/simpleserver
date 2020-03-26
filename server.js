@@ -30,7 +30,7 @@ app.use(cors())
 
 
 app.get("/",function(req,res){
-	res.send("Confirmed");
+	res.sendFile(__dirname + "/react-native-web/build/index.html")
 })
 
 
