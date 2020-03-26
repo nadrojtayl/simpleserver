@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { Button, Image, StyleSheet, Text, View, Picker, ScrollView, Switch } from "react-native";
 import {FrontPage} from './FrontPage.js'
 
 
@@ -30,6 +30,13 @@ class App extends Component {
             style={styles.logo}
           />
           <Text style={styles.title}>Reacts Native for Web</Text>
+
+<Image
+    
+
+   style={{height:70}}
+    source={{uri:"https://i.redd.it/w3kr4m2fi3111.png"}}
+/>
         </View>
         <Text style={styles.text}>
           This is an example of an app built with{" "}
