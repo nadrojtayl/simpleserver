@@ -38,13 +38,17 @@ app.get("/table",async function(req,res){
 	var table =  req.params.table;
 	var schema =  req.schema;
 
+	if(typeof schema === "string"){
+		schema = eval(schema);
+	}
+
 	res.header("Access-Control-Allow-Headers","*");
 	res.header('Access-Control-Allow-Credentials', true);
 	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
 
 	//var socket_id = req.body.socket_id;
 
-	if schema(){
+	if(schema){
 		res.send(await global.db[table]["find"]({}))
 		return
 	}
