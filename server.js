@@ -44,7 +44,7 @@ app.post("/table",async function(req,res){
 
 	var table =  req.param("table");
 	var fields = req.body;
-	console.log(typeof req.body);
+	console.log(req.body);
 
 	res.header("Access-Control-Allow-Headers","*");
 	res.header('Access-Control-Allow-Credentials', true);
