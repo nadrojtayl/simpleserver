@@ -4,6 +4,13 @@ var massive = require('massive');
 var http = require('http').createServer(app);
 const bodyParser = require("body-parser");
 var cors = require('cors')
+const { Client } = require('pg');
+var connection_string = "postgres://vinsmrhumjjhvh:8a593a286c542ea5dc58642686f606db229a3d7a5262c133cfab2afe4a4f277e@ec2-54-235-208-103.compute-1.amazonaws.com:5432/detvnn3mdquvt";
+
+const client = new Client({
+  connectionString: connection_string,
+  ssl:true
+});
 
 async function get_db(){
 	global.db = await massive({
@@ -38,7 +45,7 @@ app.get("/table",async function(req,res){
 	var table =  req.param("table");
 	var schema =  req.param("schema");
 	console.log(table)
-	console.log(Object.keys(global.db[table]["schema"]))
+	console.log(Object.keys(await global.db.run("Select * from " + table )))
 
 	if(typeof schema === "string"){
 		schema = eval(schema);
