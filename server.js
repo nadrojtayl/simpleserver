@@ -45,7 +45,7 @@ app.get("/table",async function(req,res){
 	var table =  req.param("table");
 	var schema =  req.param("schema");
 	console.log(table)
-	console.log(Object.keys(await global.db.query("Select * from " + table )))
+	console.log(Object.keys(await global.db.query("DESCRIBE TABLE " + table )))
 
 	if(typeof schema === "string"){
 		schema = eval(schema);
