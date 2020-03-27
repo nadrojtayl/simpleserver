@@ -35,8 +35,8 @@ app.get("/",function(req,res){
 
 
 app.get("/table",async function(req,res){
-	var table =  req.params.table;
-	var schema =  req.schema;
+	var table =  req.param("table");
+	var schema =  req.param("schema");
 	console.log(table)
 	console.log(global.db)
 	console.log(global.db[table])
@@ -56,7 +56,7 @@ app.get("/table",async function(req,res){
 	// 	return
 	// }
 	//[{name:"first_name",type:"text"},{name:"second_name",type:"text"}]
-	
+
 	var response = JSON.stringify(global.db[table])
 
 	res.send(response)
