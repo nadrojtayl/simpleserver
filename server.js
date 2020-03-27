@@ -30,7 +30,7 @@ app.use(cors())
 
 
 app.get("/",function(req,res){
-	res.sendFile("Confirmed")
+	res.send("Confirmed")
 })
 
 
