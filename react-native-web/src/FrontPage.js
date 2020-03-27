@@ -26,7 +26,7 @@ const WebLink = props => (
 class DisplayInfo extends Component {
   constructor(props){
     super(props);
-    this.state = {fields:undefined}
+    this.state = {values:undefined}
     if(this.props.url.indexOf("/table") === -1){
       this.state["configured_properly"] = false
     } else {
@@ -40,20 +40,18 @@ class DisplayInfo extends Component {
     console.log("HEREN")
     if(this.state.configured_properly){
       console.log(this.state.configured_properly)
-    //   var schema = fetch(this.props.url, {
-    //             method: 'GET',
-    //             headers: {
-    //               "Content-Type": "application/json",
-    //               "Accept": "application/json"
-    //             }
-    //   }).then(resp => resp.json()).then(function(res){
-    //      if(res.status === "Success"){
-    //         that.state.values = res.values;
-    //         return;
-    //       } else {
-    //         alert("There was an issue accessing the server. Try checking your url.");
-    //      }
-    //   })
+      var schema = fetch(this.props.url + "$schema=false", {
+                method: 'GET',
+                headers: {
+                  "Content-Type": "application/json",
+                  "Accept": "application/json"
+                }
+      }).then(resp => resp.json()).then(function(res){
+            that.setState({values:res})
+            console.log(res)
+           
+         
+      })
 
     }
     
@@ -61,16 +59,23 @@ class DisplayInfo extends Component {
 
   render(){
     var that = this;
+  
+    if(that.state.values === undefined){
+      console.log("HERENALL")
+      return (<View><Text>Loading</Text></View>)
+    }
+
+
     return (
 
       <View style={{position:"absolute",height:"100%",width:"20%",top:"20%",left:"10%", backgroundColor:'blue'}}>
         <ScrollView>
-        {that.state.values.map(function(value){
-          return (<Text
-          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-        >{value}</Text>)})
-        } 
         
+        {
+          that.state.values.map(function(value){
+            return (<Text>{value.product_name}</Text>)
+          })
+        }
       
       </ScrollView>
 
@@ -181,7 +186,7 @@ class FrontPage extends Component {
     return (
       <View style={styles.app}>
         <Text>HEYO</Text>
-        <CollectInfo title = "Click Here" url = "https://whispering-river-96325.herokuapp.com/table?table=spectra_lab_additions&schema=true"></CollectInfo>
+        <DisplayInfo title = "Click Here" url = "https://whispering-river-96325.herokuapp.com/table?table=spectra_lab_additions&schema=true"></DisplayInfo>
       </View>
     );
   }
