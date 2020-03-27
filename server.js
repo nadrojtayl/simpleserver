@@ -38,6 +38,7 @@ app.get("/table",async function(req,res){
 	var table =  req.params.table;
 	var schema =  req.schema;
 
+
 	if(typeof schema === "string"){
 		schema = eval(schema);
 	}
@@ -48,12 +49,14 @@ app.get("/table",async function(req,res){
 
 	//var socket_id = req.body.socket_id;
 
-	if(schema){
-		res.send(await global.db[table]["find"]({}))
-		return
-	}
+	// if(!schema){
+	// 	res.send(await global.db[table]["find"]({}))
+	// 	return
+	// }
+	//[{name:"first_name",type:"text"},{name:"second_name",type:"text"}]
+	var response = JSON.stringify(global.db[table])
 
-	res.send([{name:"first_name",type:"text"},{name:"second_name",type:"text"}])
+	res.send(response)
 	return
 
 

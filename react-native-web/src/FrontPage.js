@@ -37,21 +37,23 @@ class DisplayInfo extends Component {
 
   componentDidMount(){
     var that = this;
+    console.log("HEREN")
     if(this.state.configured_properly){
-      var schema = fetch(this.props.url, {
-                method: 'GET',
-                headers: {
-                  "Content-Type": "application/json",
-                  "Accept": "application/json"
-                }
-      }).then(resp => resp.json()).then(function(res){
-         if(res.status === "Success"){
-            that.state.values = res.values;
-            return;
-          } else {
-            alert("There was an issue accessing the server. Try checking your url.");
-         }
-      })
+      console.log(this.state.configured_properly)
+    //   var schema = fetch(this.props.url, {
+    //             method: 'GET',
+    //             headers: {
+    //               "Content-Type": "application/json",
+    //               "Accept": "application/json"
+    //             }
+    //   }).then(resp => resp.json()).then(function(res){
+    //      if(res.status === "Success"){
+    //         that.state.values = res.values;
+    //         return;
+    //       } else {
+    //         alert("There was an issue accessing the server. Try checking your url.");
+    //      }
+    //   })
 
     }
     
@@ -61,7 +63,7 @@ class DisplayInfo extends Component {
     var that = this;
     return (
 
-      <View style={{position:"absolute",height:"50%",width:"80%",top:"20%",left:"10%", backgroundColor:'blue'}}>
+      <View style={{position:"absolute",height:"100%",width:"20%",top:"20%",left:"10%", backgroundColor:'blue'}}>
         <ScrollView>
         {that.state.values.map(function(value){
           return (<Text
@@ -71,8 +73,9 @@ class DisplayInfo extends Component {
         
       
       </ScrollView>
+
       <Button title = "Submit" onClick = {that.send}></Button>
-        </View>
+    </View>
 
       )
   }
@@ -86,7 +89,7 @@ class CollectInfo extends Component {
 
   constructor(props){
     super(props);
-    this.state = {fields:undefined}
+    this.state = {fields:undefined, hidden: true}
     if(this.props.url.indexOf("/table") === -1){
       this.state["configured_properly"] = false
     } else {
@@ -98,6 +101,7 @@ class CollectInfo extends Component {
   componentDidMount(){
     var that = this;
     if(this.state.configured_properly){
+      console.log(this.props.url + "&schema=true")
       var schema = fetch(this.props.url + "&schema = true", {
                 method: 'GET',
                 headers: {
@@ -105,12 +109,11 @@ class CollectInfo extends Component {
                   "Accept": "application/json"
                 }
       }).then(resp => resp.json()).then(function(res){
-         if(res.status === "Success"){
-            that.state.fields = res.fields;
+            that.state.fields = res;
             return;
-          } else {
-            alert("There was an issue accessing the server. Try checking your url.");
-         }
+      }).catch(function(err){
+        console.log(err)
+
       })
 
     }
@@ -137,23 +140,27 @@ class CollectInfo extends Component {
 
   render(){
     var that = this;
+    console.log(that.state.hidden)
     if(that.state.hidden){
-      return (<View><Button>{that.state.props.title}</Button></View>)
+      console.log("HIDDEN")
+      return (<View style = {{width:"10%"}}><Button onPress = {function(){that.setState({hidden:false})}} title = {that.props.title}></Button></View>)
     }
     return (
 
-      <View style={{position:"absolute",height:"50%",width:"80%",top:"20%",left:"10%", backgroundColor:'blue'}}>
+      <View style={{position:"absolute", justifyContent:'center',  borderWidth:1, height:"50%",width:"50%",top:"20%",left:"10%", backgroundColor:'white'}}>
         <ScrollView>
-        {that.state.fields.map(function(field){
+        {that.state.fields.map(function(field,ind){
           return (<TextInput
           style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
-          onChangeText={function(text){that.state.fields[field].value = text}}
-          value={that.state.fields[field].value}
+          onChangeText={function(text){that.state.fields[ind].value = text}}
+          value={that.state.fields[ind].value}
+          placeholder = {"Enter " + field.name}
         />)}) 
         
       }
       </ScrollView>
-      <Button title = "Submit" onClick = {that.send}></Button>
+      <Button title = "Submit" onPress = {that.send}></Button>
+      <Button title = "Hide" onPress = {function(){that.setState({hidden:true})}}></Button>
         </View>
 
       )
@@ -172,6 +179,7 @@ class FrontPage extends Component {
     return (
       <View style={styles.app}>
         <Text>HEYO</Text>
+        <CollectInfo title = "Click Here" url = "https://whispering-river-96325.herokuapp.com/table?schema=true"></CollectInfo>
       </View>
     );
   }
