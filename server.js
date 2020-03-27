@@ -65,7 +65,7 @@ app.get("/table",async function(req,res){
 
 	// var response = JSON.stringify(fields)
 
-	res.send(response)
+	res.send(fields)
 	return
 
 
