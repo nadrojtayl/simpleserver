@@ -110,6 +110,7 @@ class CollectInfo extends Component {
                 }
       }).then(resp => resp.json()).then(function(res){
             that.state.fields = res;
+            console.log(res)
             return;
       }).catch(function(err){
         console.log(err)
@@ -122,6 +123,7 @@ class CollectInfo extends Component {
 
   send(){
     var url = this.props.url;
+    console.log(url)
     var body = this.state.fields;
     var that = this;
      var schema = fetch(this.props.url, {
@@ -154,12 +156,12 @@ class CollectInfo extends Component {
           style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
           onChangeText={function(text){that.state.fields[ind].value = text}}
           value={that.state.fields[ind].value}
-          placeholder = {"Enter " + field.name}
+          placeholder = {"Enter " + field.column_name}
         />)}) 
         
       }
       </ScrollView>
-      <Button title = "Submit" onPress = {that.send}></Button>
+      <Button title = "Submit" onPress = {that.send.bind(that)}></Button>
       <Button title = "Hide" onPress = {function(){that.setState({hidden:true})}}></Button>
         </View>
 
@@ -179,7 +181,7 @@ class FrontPage extends Component {
     return (
       <View style={styles.app}>
         <Text>HEYO</Text>
-        <CollectInfo title = "Click Here" url = "https://whispering-river-96325.herokuapp.com/table?schema=true"></CollectInfo>
+        <CollectInfo title = "Click Here" url = "https://whispering-river-96325.herokuapp.com/table?table=spectra_lab_additions&schema=true"></CollectInfo>
       </View>
     );
   }
