@@ -40,6 +40,26 @@ app.get("/",function(req,res){
 	res.send("Confirmed")
 })
 
+app.post("/table",async function(req,res){
+	var table =  req.param("table");
+	var fields = req.body.fields;
+
+	res.header("Access-Control-Allow-Headers","*");
+	res.header('Access-Control-Allow-Credentials', true);
+	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+	var obj = {};
+
+	fields.forEach(function(field){
+		obj[field.column_name] = field.value
+	})
+
+	global.db[table].insert({})
+
+	return
+
+
+})
+
 
 app.get("/table",async function(req,res){
 	var table =  req.param("table");
