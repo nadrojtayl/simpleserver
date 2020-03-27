@@ -38,7 +38,7 @@ app.get("/table",async function(req,res){
 	var table =  req.param("table");
 	var schema =  req.param("schema");
 	console.log(table)
-	console.log(global.db[table])
+	console.log(Object.keys(global.db[table]))
 
 	if(typeof schema === "string"){
 		schema = eval(schema);
