@@ -124,7 +124,7 @@ class CollectInfo extends Component {
   send(){
     var url = this.props.url;
     console.log(url)
-    var body = this.state.fields;
+    var body = JSON.stringify(this.state.fields);
     var that = this;
      var schema = fetch(this.props.url, {
                 method: 'POST',
