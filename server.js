@@ -38,7 +38,7 @@ app.get("/table",async function(req,res){
 	var table =  req.param("table");
 	var schema =  req.param("schema");
 	console.log(table)
-	console.log(Object.keys(global.db[table]["schema"]))
+	console.log(global.db[table]["schema"])
 
 	if(typeof schema === "string"){
 		schema = eval(schema);
@@ -56,7 +56,7 @@ app.get("/table",async function(req,res){
 	// }
 	//[{name:"first_name",type:"text"},{name:"second_name",type:"text"}]
 
-	var response = JSON.stringify(global.db[table])
+	// var response = JSON.stringify(global.db[table])
 
 	res.send("EXAMPLE")
 	return
