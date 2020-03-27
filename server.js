@@ -52,7 +52,16 @@ app.post("/table",async function(req,res){
 	var obj = {};
 
 	fields.forEach(function(field){
-		obj[field.column_name] = field.value
+		if(field.column_name.indexOf("_id") !== -1){
+			return
+		}
+
+		if(data_type === "integer" || data_type === "smallint"){
+			obj[field.column_name] = parseInt(field.value)
+		} else {
+			obj[field.column_name] = field.value
+		}
+		
 	})
 
 	console.log(obj)
