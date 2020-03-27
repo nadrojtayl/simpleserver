@@ -30,7 +30,29 @@ app.use(cors())
 
 
 app.get("/",function(req,res){
-	res.sendFile(__dirname + "/react-native-web/build/index.html")
+	res.sendFile("Confirmed")
+})
+
+
+app.get("/table",async function(req,res){
+	var table =  req.params.table;
+	var schema =  req.schema;
+
+	res.header("Access-Control-Allow-Headers","*");
+	res.header('Access-Control-Allow-Credentials', true);
+	res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+
+	//var socket_id = req.body.socket_id;
+
+	if schema(){
+		res.send(await global.db[table]["find"]({}))
+		return
+	}
+
+	res.send([{name:"first_name",type:"text"},{name:"second_name",type:"text"}])
+	return
+
+
 })
 
 

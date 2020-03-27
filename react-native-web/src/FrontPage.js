@@ -1,10 +1,11 @@
 import React, { Component } from "react";
-import { Button, Image, StyleSheet, Text, View } from "react-native";
+import { Button, Image, ScrollView, StyleSheet, Text, View, TextInput } from "react-native";
 import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Link,
+
 } from "react-router-dom";
 
 
@@ -22,37 +23,155 @@ const WebLink = props => (
   />
 );
 
-class App extends Component {
+class DisplayInfo extends Component {
+  constructor(props){
+    super(props);
+    this.state = {fields:undefined}
+    if(this.props.url.indexOf("/table") === -1){
+      this.state["configured_properly"] = false
+    } else {
+      this.state["configured_properly"] = true
+    }
+
+  }
+
+  componentDidMount(){
+    var that = this;
+    if(this.state.configured_properly){
+      var schema = fetch(this.props.url, {
+                method: 'GET',
+                headers: {
+                  "Content-Type": "application/json",
+                  "Accept": "application/json"
+                }
+      }).then(resp => resp.json()).then(function(res){
+         if(res.status === "Success"){
+            that.state.values = res.values;
+            return;
+          } else {
+            alert("There was an issue accessing the server. Try checking your url.");
+         }
+      })
+
+    }
+    
+  }
+
+  render(){
+    var that = this;
+    return (
+
+      <View style={{position:"absolute",height:"50%",width:"80%",top:"20%",left:"10%", backgroundColor:'blue'}}>
+        <ScrollView>
+        {that.state.values.map(function(value){
+          return (<Text
+          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+        >{value}</Text>)})
+        } 
+        
+      
+      </ScrollView>
+      <Button title = "Submit" onClick = {that.send}></Button>
+        </View>
+
+      )
+  }
+
+
+
+
+}
+
+class CollectInfo extends Component {
+
+  constructor(props){
+    super(props);
+    this.state = {fields:undefined}
+    if(this.props.url.indexOf("/table") === -1){
+      this.state["configured_properly"] = false
+    } else {
+      this.state["configured_properly"] = true
+    }
+
+  }
+
+  componentDidMount(){
+    var that = this;
+    if(this.state.configured_properly){
+      var schema = fetch(this.props.url + "&schema = true", {
+                method: 'GET',
+                headers: {
+                  "Content-Type": "application/json",
+                  "Accept": "application/json"
+                }
+      }).then(resp => resp.json()).then(function(res){
+         if(res.status === "Success"){
+            that.state.fields = res.fields;
+            return;
+          } else {
+            alert("There was an issue accessing the server. Try checking your url.");
+         }
+      })
+
+    }
+    
+  }
+
+  send(){
+    var url = this.props.url;
+    var body = this.state.fields;
+    var that = this;
+     var schema = fetch(this.props.url, {
+                method: 'POST',
+                body:body,
+                headers: {
+                  "Content-Type": "application/json",
+                  "Accept": "application/json"
+                }
+      }).then(resp => resp.json()).then(function(res){
+        alert("Saved!")
+         that.setState({"hidden":true})
+      })
+    
+  }
+
+  render(){
+    var that = this;
+    if(that.state.hidden){
+      return (<View><Button>{that.state.props.title}</Button></View>)
+    }
+    return (
+
+      <View style={{position:"absolute",height:"50%",width:"80%",top:"20%",left:"10%", backgroundColor:'blue'}}>
+        <ScrollView>
+        {that.state.fields.map(function(field){
+          return (<TextInput
+          style={{ height: 40, borderColor: 'gray', borderWidth: 1 }}
+          onChangeText={function(text){that.state.fields[field].value = text}}
+          value={that.state.fields[field].value}
+        />)}) 
+        
+      }
+      </ScrollView>
+      <Button title = "Submit" onClick = {that.send}></Button>
+        </View>
+
+      )
+  }
+
+
+
+}
+
+
+
+class FrontPage extends Component {
+
   render() {
+    var that = this;
     return (
       <View style={styles.app}>
-        <View style={styles.header}>
-          <Image
-            accessibilityLabel="React logo"
-            source={{ uri: logoUri }}
-            resizeMode="contain"
-            style={styles.logo}
-          />
-          <Text style={styles.title}>Front Page</Text>
-        </View>
-        <Text style={styles.text}>
-          This is an example of an app built with{" "}
-          <WebLink href="https://github.com/facebook/create-react-app">
-            Create React App
-          </WebLink>{" "}
-          and{" "}
-          <WebLink href="https://github.com/necolas/react-native-web">
-            React Native for Web
-          </WebLink>
-        </Text>
-        <Text style={styles.text}>
-          To get started, edit{" "}
-          <WebLink href="https://codesandbox.io/s/q4qymyp2l6/" style={styles.code}>
-            src/App.js
-          </WebLink>
-          .
-        </Text>
-        <Button onPress={() => {}} title="Example button" />
+        <Text>HEYO</Text>
       </View>
     );
   }
@@ -60,9 +179,7 @@ class App extends Component {
 
 const styles = StyleSheet.create({
   app: {
-    marginHorizontal: "auto",
-    maxWidth: 500,
-    backgroundColor:'red'
+    height:"100%"
   },
   logo: {
     height: 80
@@ -90,4 +207,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default App;
+export default FrontPage;
