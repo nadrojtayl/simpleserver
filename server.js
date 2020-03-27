@@ -45,7 +45,7 @@ app.get("/table",async function(req,res){
 	var table =  req.param("table");
 	var schema =  req.param("schema");
 	console.log(table)
-	console.log(Object.keys(await global.db.query("DESCRIBE TABLE " + table )))
+	console.log(Object.keys(await global.db.query("select column_name, data_type, character_maximum_length from INFORMATION_SCHEMA.COLUMNS")))
 
 	if(typeof schema === "string"){
 		schema = eval(schema);
