@@ -44,8 +44,7 @@ app.get("/",function(req,res){
 app.get("/table",async function(req,res){
 	var table =  req.param("table");
 	var schema =  req.param("schema");
-	console.log(table)
-	console.log(await global.db.query("select column_name, data_type, character_maximum_length from INFORMATION_SCHEMA.COLUMNS where table_name = '"+table+  "'" ))
+
 
 	if(typeof schema === "string"){
 		schema = eval(schema);
@@ -57,15 +56,16 @@ app.get("/table",async function(req,res){
 
 	//var socket_id = req.body.socket_id;
 
-	// if(!schema){
-	// 	res.send(await global.db[table]["find"]({}))
-	// 	return
-	// }
-	//[{name:"first_name",type:"text"},{name:"second_name",type:"text"}]
+	if(!schema){
+		res.send(await global.db[table]["find"]({}))
+		return
+	}
 
-	// var response = JSON.stringify(global.db[table])
+	var fields = await global.db.query("select column_name, data_type, character_maximum_length from INFORMATION_SCHEMA.COLUMNS where table_name = '"+table+  "'" )
 
-	res.send("EXAMPLE")
+	// var response = JSON.stringify(fields)
+
+	res.send(response)
 	return
 
 
